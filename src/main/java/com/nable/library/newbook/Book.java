@@ -2,16 +2,24 @@ package com.nable.library.newbook;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.ISBN.Type;
+import org.springframework.util.Assert;
 
-import com.nable.library.shared.UniqueValue;
-
-public class NewBookRequest {
+@Entity
+public class Book {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@NotBlank
 	private String title;
@@ -20,10 +28,14 @@ public class NewBookRequest {
 	private BigDecimal price;
 	@NotBlank
 	@ISBN(type = Type.ISBN_10)
-	@UniqueValue(domainClass = Book.class, fieldName = "isbn")
 	private String isbn;
-
-	public NewBookRequest(@NotBlank String title, @NotNull @Positive BigDecimal price,
+	
+	
+	public Book() {
+		
+	}
+	
+	public Book(@NotBlank String title, @NotNull @Positive BigDecimal price,
 			@NotBlank @ISBN(type = Type.ISBN_10) String isbn) {
 		super();
 		this.title = title;
@@ -31,8 +43,8 @@ public class NewBookRequest {
 		this.isbn = isbn;
 	}
 
-	public Book toModel() {
-		return new Book(title, price, isbn);
+	public Long getId() {
+		Assert.state(id!=null,"Get id don't work with null");
+		return this.id;
 	}
-
 }
