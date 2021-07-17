@@ -1,11 +1,14 @@
 package com.nable.library.newbook;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -14,9 +17,13 @@ import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.ISBN.Type;
 import org.springframework.util.Assert;
 
+import com.nable.library.newinstance.Instance;
+import com.nable.library.newuser.User;
+
+//3 points total
 @Entity
 public class Book {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,12 +36,14 @@ public class Book {
 	@NotBlank
 	@ISBN(type = Type.ISBN_10)
 	private String isbn;
-	
-	
+	//1
+	@OneToMany(mappedBy = "book")
+	private List<Instance> instances = new ArrayList<>();
+
 	public Book() {
-		
+
 	}
-	
+
 	public Book(@NotBlank String title, @NotNull @Positive BigDecimal price,
 			@NotBlank @ISBN(type = Type.ISBN_10) String isbn) {
 		super();
@@ -44,7 +53,20 @@ public class Book {
 	}
 
 	public Long getId() {
-		Assert.state(id!=null,"Get id don't work with null");
+		Assert.state(id != null, "Get id don't work with null");
 		return this.id;
+	}
+
+	public boolean acceptBeHoldFor(User user) {
+		boolean canBeHoldForAnyUser = instances.stream().anyMatch(instance -> instance.checkType(com.nable.library.newinstance.Type.FREE));
+		//1
+		if(canBeHoldForAnyUser) {
+			return true;
+		}
+		//1
+		if(user.isDefault()) {
+			return false;
+		}
+		return instances.stream().anyMatch(instance -> instance.checkType(com.nable.library.newinstance.Type.RESTRICT));
 	}
 }

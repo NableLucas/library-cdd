@@ -15,6 +15,10 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Deprecated
+	public User() {
+	}
+
 	private @NotNull UserType type;
 
 	public User(@NotNull UserType type) {
@@ -24,6 +28,10 @@ public class User {
 	public Long getId() {
 		Assert.state(id!=null,"ID don't be null at this points, did you call save(method)?");
 		return id;
+	}
+
+	public boolean isDefault() {
+		return this.type.equals(UserType.DEFAULT);
 	}
 	
 }

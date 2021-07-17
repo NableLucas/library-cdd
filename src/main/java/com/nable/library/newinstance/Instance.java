@@ -24,6 +24,10 @@ public class Instance {
 	@NotNull
 	@Valid
 	private Book book;
+	
+	@Deprecated
+	public Instance() {
+	}
 
 	public Instance(@NotNull Type type,@NotNull @Valid Book book) {
 		this.type = type;
@@ -34,6 +38,21 @@ public class Instance {
 		Assert.state(id!=null,"Id is null, call persist?");
 		return id;
 	}
+	
+//	public boolean freeCirculation() {
+//		return this.type.equals(Type.FREE);
+//	}
+//	
+//	public boolean restrict() {
+//		return this.type.equals(Type.RESTRICT);
+//	}
+	
+	public boolean checkType(Type tyoe) {
+		return this.type.equals(tyoe);
+	}
+	
+	
+	
 	
 
 }
