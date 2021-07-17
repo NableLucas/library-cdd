@@ -1,7 +1,7 @@
 # What?
 
 This repository contains the challenger
-[here](https://github.com/ddd-by-examples/library) pelo olhar do CDD. 
+[here](https://github.com/ddd-by-examples/library)
 
 Watching videos from deveficiente
 [here](https://www.youtube.com/watch?v=SuOrM4z8xFc&t=414s)
