@@ -33,5 +33,10 @@ public class User {
 	public boolean type(UserType typeSearched) {
 		return this.type.equals(typeSearched);
 	}
+
+	//1
+	public boolean validTimeHold(AskHoldWithTime ask) {
+		return type.accetvalidTimeHold(ask);
+	}
 	
 }

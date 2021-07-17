@@ -1,11 +1,15 @@
 package com.nable.library.newhold;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Range;
 
-public class NewHoldRequest {
+import com.nable.library.newuser.AskHoldWithTime;
+
+public class NewHoldRequest implements AskHoldWithTime {
 	
 	@NotNull
 	@Positive
@@ -34,6 +38,10 @@ public class NewHoldRequest {
 	
 	public Long getIdBook() {
 		return idBook;
+	}
+
+	public boolean hasTimeHold() {
+		return Optional.ofNullable(time).isPresent();
 	}
 	
 	

@@ -28,18 +28,30 @@ public class BasicVerificationHoldValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		// 1
 		if (errors.hasErrors()) {
 			return;
 		}
+		// 1
 		NewHoldRequest request = (NewHoldRequest) target;
+		// 1
 		User user = manager.find(User.class, request.getIdUser());
+		// 1
 		Book book = manager.find(Book.class, request.getIdBook());
-		
-		Assert.state(user!=null,"User can not be null to validate");
-		Assert.state(book!=null,"Book can not be null to validate");
 
+		Assert.state(user != null, "User can not be null to validate");
+		Assert.state(book != null, "Book can not be null to validate");
+
+		// 1
+		// validation if the book accept be hold by user
 		if (!book.acceptBeHoldFor(user)) {
 			errors.reject(null, "This user can't take this book");
+		}
+
+		//1
+		// validation if the user need to set the hold time
+		if (!user.validTimeHold(request)) {
+			errors.reject(null, "You need define hold time");
 		}
 
 	}
