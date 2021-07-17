@@ -16,26 +16,41 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nable.library.newbook.Book;
 import com.nable.library.newbook.BookRepository;
 
+//total 5
 @RestController
 public class NewInstanceController {
-	
+
+	// 1
 	@Autowired
 	private BookRepository repository;
-	
+
 	@Autowired
 	private EntityManager manager;
 
 	@PostMapping(value = "/book/{isbn}/instances")
 	@Transactional
-	public ResponseEntity<?> execute(@PathVariable("isbn") String isbn, @RequestBody @Valid NewInstanceRequest request) {
+	// 1 newinstance request
+	public ResponseEntity<?> execute(@PathVariable("isbn") String isbn,
+			@RequestBody @Valid NewInstanceRequest request) {
+		// 1
 		Optional<Book> possibleBook = repository.findByIsbn(isbn);
-		if(possibleBook.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		Instance newInstance = request.toModel(possibleBook.get());
-		manager.persist(newInstance);
-		
-		return ResponseEntity.ok(newInstance.getId());
+
+		// 1
+		return possibleBook.map(book -> {
+			Instance newInstance = request.toModel(possibleBook.get());
+			manager.persist(newInstance);
+			return ResponseEntity.ok(newInstance.getId());
+		}).orElse(ResponseEntity.notFound().build());
+
+		//1 - Não precisei mais pois troquei a complexidade dado que tenho
+		// if(possibleBook.isEmpty()) {
+		//	return ResponseEntity.notFound().build();
+		// }
+
+		// 1
+		// Instance newInstance = request.toModel(possibleBook.get());
+		// manager.persist(newInstance);
+		// return ResponseEntity.ok(newInstance.getId());
 	}
 
 }
