@@ -30,8 +30,8 @@ public class User {
 		return id;
 	}
 
-	public boolean isDefault() {
-		return this.type.equals(UserType.DEFAULT);
+	public boolean type(UserType typeSearched) {
+		return this.type.equals(typeSearched);
 	}
 	
 }

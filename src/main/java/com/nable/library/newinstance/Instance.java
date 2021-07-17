@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.util.Assert;
 
 import com.nable.library.newbook.Book;
+import com.nable.library.newuser.User;
 
 @Entity
 public class Instance {
@@ -38,17 +39,9 @@ public class Instance {
 		Assert.state(id!=null,"Id is null, call persist?");
 		return id;
 	}
-	
-//	public boolean freeCirculation() {
-//		return this.type.equals(Type.FREE);
-//	}
-//	
-//	public boolean restrict() {
-//		return this.type.equals(Type.RESTRICT);
-//	}
-	
-	public boolean checkType(Type tyoe) {
-		return this.type.equals(tyoe);
+
+	public boolean accept(User user) {
+		return this.type.accept(user);
 	}
 	
 	

@@ -57,16 +57,9 @@ public class Book {
 		return this.id;
 	}
 
+	//1
 	public boolean acceptBeHoldFor(User user) {
-		boolean canBeHoldForAnyUser = instances.stream().anyMatch(instance -> instance.checkType(com.nable.library.newinstance.Type.FREE));
 		//1
-		if(canBeHoldForAnyUser) {
-			return true;
-		}
-		//1
-		if(user.isDefault()) {
-			return false;
-		}
-		return instances.stream().anyMatch(instance -> instance.checkType(com.nable.library.newinstance.Type.RESTRICT));
+		return instances.stream().anyMatch(instance -> instance.accept(user));
 	}
 }
