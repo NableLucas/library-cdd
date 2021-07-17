@@ -1,4 +1,4 @@
-package com.nable.library.newbook;
+package com.nable.library.newuser;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -10,16 +10,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class NewBookController {
-
+public class NewUserController {
+	
 	@Autowired
 	private EntityManager manager;
 	
-	@PostMapping(value = "/book")
+	@PostMapping(value = "/api/users")
 	@Transactional
-	public Long execute(@RequestBody @Valid NewBookRequest request) {
-		Book newBook = request.toModel();
-		manager.persist(newBook);
-		return newBook.getId();
+	public Long executa(@RequestBody @Valid NewUserRequest request){
+		User newUser = request.toModel();
+		manager.persist(newUser);
+		return newUser.getId();
 	}
 }
+

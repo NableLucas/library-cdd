@@ -9,6 +9,8 @@ import javax.validation.constraints.Positive;
 import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.ISBN.Type;
 
+import com.nable.library.shared.UniqueValue;
+
 public class NewBookRequest {
 
 	@NotBlank
@@ -18,8 +20,9 @@ public class NewBookRequest {
 	private BigDecimal price;
 	@NotBlank
 	@ISBN(type = Type.ISBN_10)
+	@UniqueValue(domainClass = Book.class, fieldName = "isbn")
 	private String isbn;
-	
+
 	public NewBookRequest(@NotBlank String title, @NotNull @Positive BigDecimal price,
 			@NotBlank @ISBN(type = Type.ISBN_10) String isbn) {
 		super();
@@ -27,7 +30,9 @@ public class NewBookRequest {
 		this.price = price;
 		this.isbn = isbn;
 	}
-	
-	
-	
+
+	public Book toModel() {
+		return new Book(title, price, isbn);
+	}
+
 }
