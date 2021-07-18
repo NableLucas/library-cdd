@@ -41,18 +41,20 @@ public class BasicVerificationHoldValidator implements Validator {
 
 		Assert.state(user != null, "User can not be null to validate");
 		Assert.state(book != null, "Book can not be null to validate");
-		// 1
-		if (!book.acceptBeHoldFor(user)) {
-			errors.reject(null, "This user can't take this book");
-		}
+		//1
+		new ValidateBookForLoan().validate(user, book, errors);
+		
 		//1
 		if (!user.validTimeHold(request)) {
 			errors.reject(null, "You need define hold time");
 		}
-		//1
-		if(!book.isDisponibilityForHold()) {
-			errors.reject(null, "This book is not disponible for hold");
+		
+		if(!user.canAskForHold()) {
+			errors.reject(null, "You are on limit for hold, limit is 5");
 		}
+		
+		
+		
 
 	}
 

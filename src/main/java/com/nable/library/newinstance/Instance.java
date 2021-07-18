@@ -56,6 +56,10 @@ public class Instance {
 				||
 				this.holds.stream().allMatch(hold -> hold.wasReturned());
 	}
+
+	public boolean disponible(@NotNull @Valid User user) {
+		return this.accept(user) && this.disponibleForHold();
+	}
 	
 	
 	

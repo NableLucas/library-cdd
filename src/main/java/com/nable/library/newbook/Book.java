@@ -66,13 +66,15 @@ public class Book {
 
 	public Hold createHold(@NotNull @Valid User user, @Positive Integer time) {
 		Assert.isTrue(this.acceptBeHoldFor(user), "You try hold book is not possible for this user");
-		
+		Assert.state(this.isDisponibilityForHold(), "You can't create hold for book with no disponible instnace");
+		Assert.state(user.canAskForHold(), "The user can not ask for loan");
 		//1
 		Instance instanceSelected = instances.stream()
-				.filter(instance -> instance.accept(user))
+				//.filter(instance -> instance.accept(user) && instance.disponibleForHold())
+				.filter(instance -> instance.disponible(user))
 				.findFirst().get();
 		
-		Assert.isTrue(instanceSelected.disponibleForHold(),"Your code don't try create a hold for indisponible instance");
+		Assert.state(instanceSelected.disponibleForHold(),"Your code don't try create a hold for indisponible instance");
 		
 		//1
 		return new Hold(user, instanceSelected, time);
@@ -81,5 +83,11 @@ public class Book {
 	public boolean isDisponibilityForHold() {
 		//1
 		return instances.stream().anyMatch(instance -> instance.disponibleForHold());
+	}
+
+	public Instance newInstance(com.nable.library.newinstance.Type type) {
+		Instance newInstance = new Instance(type, this);
+		this.instances.add(newInstance);
+		return newInstance;
 	}
 }
