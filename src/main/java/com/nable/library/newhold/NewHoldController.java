@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nable.library.newbook.Hold;
+
 @RestController
 public class NewHoldController {
 	
@@ -28,10 +30,9 @@ public class NewHoldController {
 	@PostMapping(value = "/api/hold")
 	@Transactional
 	public Long executa(@RequestBody @Valid NewHoldRequest request){
-//		Class newClass = request.toModel();
-//		manager.persist(newClass)
-//		return newClass.getId();
-		return 1l;
+		Hold newHold = request.toModel(manager);
+		manager.persist(newHold);
+		return newHold.getId();
 	}
 }
 

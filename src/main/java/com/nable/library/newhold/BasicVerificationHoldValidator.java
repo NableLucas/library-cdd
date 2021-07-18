@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 import com.nable.library.newbook.Book;
 import com.nable.library.newuser.User;
 
-//2 points total
+//7
 @Component
 public class BasicVerificationHoldValidator implements Validator {
 
@@ -41,17 +41,17 @@ public class BasicVerificationHoldValidator implements Validator {
 
 		Assert.state(user != null, "User can not be null to validate");
 		Assert.state(book != null, "Book can not be null to validate");
-
 		// 1
-		// validation if the book accept be hold by user
 		if (!book.acceptBeHoldFor(user)) {
 			errors.reject(null, "This user can't take this book");
 		}
-
 		//1
-		// validation if the user need to set the hold time
 		if (!user.validTimeHold(request)) {
 			errors.reject(null, "You need define hold time");
+		}
+		//1
+		if(!book.isDisponibilityForHold()) {
+			errors.reject(null, "This book is not disponible for hold");
 		}
 
 	}
