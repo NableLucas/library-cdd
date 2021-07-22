@@ -18,7 +18,7 @@ import com.nable.library.newinstance.Instance;
 import com.nable.library.newuser.User;
 
 @Entity
-public class Hold {
+public class Lend {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +32,13 @@ public class Hold {
 	
 	
 	@Deprecated
-	public Hold() {
+	public Lend() {
 		super();
 	}
 
-	public Hold(@NotNull @Valid User user, Instance instanceSelected, 
+	public Lend(@NotNull @Valid User user, Instance instanceSelected, 
 			@Positive Integer time) {
-		Assert.isTrue(instanceSelected.accept(user),"You are creating a hold with instance not accept the user, maybe you verify correctly?");
+		Assert.isTrue(instanceSelected.accept(user),"You are creating a lend with instance not accept the user, maybe you verify correctly?");
 		
 		this.user = user;
 		this.instanceSelected = instanceSelected;
@@ -46,7 +46,7 @@ public class Hold {
 	}
 
 	public Long getId() {
-		Assert.state(Objects.nonNull(id), "Maybe you forget to persist hold?");
+		Assert.state(Objects.nonNull(id), "Maybe you forget to persist lend?");
 		return id;
 	}
 

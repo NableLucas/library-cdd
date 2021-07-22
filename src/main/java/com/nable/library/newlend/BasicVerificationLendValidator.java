@@ -1,4 +1,4 @@
-package com.nable.library.newhold;
+package com.nable.library.newlend;
 
 import javax.persistence.EntityManager;
 
@@ -12,18 +12,18 @@ import com.nable.library.newuser.User;
 
 //7
 @Component
-public class BasicVerificationHoldValidator implements Validator {
+public class BasicVerificationLendValidator implements Validator {
 
 	private EntityManager manager;
 
-	public BasicVerificationHoldValidator(EntityManager manager) {
+	public BasicVerificationLendValidator(EntityManager manager) {
 		super();
 		this.manager = manager;
 	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return NewHoldRequest.class.isAssignableFrom(clazz);
+		return NewLendRequest.class.isAssignableFrom(clazz);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class BasicVerificationHoldValidator implements Validator {
 			return;
 		}
 		// 1
-		NewHoldRequest request = (NewHoldRequest) target;
+		NewLendRequest request = (NewLendRequest) target;
 		// 1
 		User user = manager.find(User.class, request.getIdUser());
 		// 1
@@ -42,15 +42,15 @@ public class BasicVerificationHoldValidator implements Validator {
 		Assert.state(user != null, "User can not be null to validate");
 		Assert.state(book != null, "Book can not be null to validate");
 		//1
-		new ValidateBookForLoan().validate(user, book, errors);
+		new ValidateBookForLend().validate(user, book, errors);
 		
 		//1
-		if (!user.validTimeHold(request)) {
-			errors.reject(null, "You need define hold time");
+		if (!user.validTimeLend(request)) {
+			errors.reject(null, "You need define lend time");
 		}
 		
-		if(!user.canAskForHold()) {
-			errors.reject(null, "You are on limit for hold, limit is 5");
+		if(!user.canAskForLend()) {
+			errors.reject(null, "You are on limit for lend, limit is 5");
 		}
 		
 		

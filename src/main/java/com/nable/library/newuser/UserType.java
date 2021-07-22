@@ -3,16 +3,16 @@ package com.nable.library.newuser;
 public enum UserType {
 	DEFAULT {
 		@Override
-		boolean accetvalidTimeHold(AskHoldWithTime ask) {
-			return ask.hasTimeHold();
+		boolean accetvalidTimeLend(AskLendWithTime ask) {
+			return ask.hasTimeLend();
 		}
 	},
 	RESSEARCH {
 		@Override
-		boolean accetvalidTimeHold(AskHoldWithTime ask) {
+		boolean accetvalidTimeLend(AskLendWithTime ask) {
 			return true;
 		}
 	};
 
-	abstract boolean accetvalidTimeHold(AskHoldWithTime ask);
+	abstract boolean accetvalidTimeLend(AskLendWithTime ask);
 }

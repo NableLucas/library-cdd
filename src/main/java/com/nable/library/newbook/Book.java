@@ -59,30 +59,30 @@ public class Book {
 	}
 
 	// 1
-	public boolean acceptBeHoldFor(User user) {
+	public boolean acceptBeLendFor(User user) {
 		// 1
 		return instances.stream().anyMatch(instance -> instance.accept(user));
 	}
 
-	public Hold createHold(@NotNull @Valid User user, @Positive Integer time) {
-		Assert.isTrue(this.acceptBeHoldFor(user), "You try hold book is not possible for this user");
-		Assert.state(this.isDisponibilityForHold(), "You can't create hold for book with no disponible instnace");
-		Assert.state(user.canAskForHold(), "The user can not ask for loan");
+	public Lend createLend(@NotNull @Valid User user, @Positive Integer time) {
+		Assert.isTrue(this.acceptBeLendFor(user), "You try lend book is not possible for this user");
+		Assert.state(this.isDisponibilityForLend(), "You can't create lend for book with no disponible instnace");
+		Assert.state(user.canAskForLend(), "The user can not ask for loan");
 		//1
 		Instance instanceSelected = instances.stream()
-				//.filter(instance -> instance.accept(user) && instance.disponibleForHold())
+				//.filter(instance -> instance.accept(user) && instance.disponibleForlend())
 				.filter(instance -> instance.disponible(user))
 				.findFirst().get();
 		
-		Assert.state(instanceSelected.disponibleForHold(),"Your code don't try create a hold for indisponible instance");
+		Assert.state(instanceSelected.disponibleForLend(),"Your code don't try create a lend for indisponible instance");
 		
 		//1
-		return new Hold(user, instanceSelected, time);
+		return new Lend(user, instanceSelected, time);
 	}
 
-	public boolean isDisponibilityForHold() {
+	public boolean isDisponibilityForLend() {
 		//1
-		return instances.stream().anyMatch(instance -> instance.disponibleForHold());
+		return instances.stream().anyMatch(instance -> instance.disponibleForLend());
 	}
 
 	public Instance newInstance(com.nable.library.newinstance.Type type) {

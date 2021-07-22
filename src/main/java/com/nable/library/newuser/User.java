@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
-import com.nable.library.newbook.Hold;
+import com.nable.library.newbook.Lend;
 
 @Entity
 public class User {
@@ -27,7 +27,7 @@ public class User {
 	private @NotNull UserType type;
 	
 	@OneToMany(mappedBy =  "user")
-	private List<Hold> holds = new ArrayList<>();
+	private List<Lend> lends = new ArrayList<>();
 
 	public User(@NotNull UserType type) {
 		this.type = type;
@@ -43,16 +43,16 @@ public class User {
 	}
 
 	//1
-	public boolean validTimeHold(AskHoldWithTime ask) {
-		return type.accetvalidTimeHold(ask);
+	public boolean validTimeLend(AskLendWithTime ask) {
+		return type.accetvalidTimeLend(ask);
 	}
 
-	public boolean canAskForHold() {
-		long quantityHoldsNoReturned = this.holds.stream()
-				.filter(hold -> !hold.wasReturned())
+	public boolean canAskForLend() {
+		long quantityLendsNoReturned = this.lends.stream()
+				.filter(lend -> !lend.wasReturned())
 				.count();
-		int limitHold = 5;
-		return quantityHoldsNoReturned < limitHold;
+		int limitLend = 5;
+		return quantityLendsNoReturned < limitLend;
 	}
 
 	

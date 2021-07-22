@@ -1,4 +1,4 @@
-package com.nable.library.newhold;
+package com.nable.library.newlend;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -11,12 +11,12 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.util.Assert;
 
 import com.nable.library.newbook.Book;
-import com.nable.library.newbook.Hold;
-import com.nable.library.newuser.AskHoldWithTime;
+import com.nable.library.newbook.Lend;
+import com.nable.library.newuser.AskLendWithTime;
 import com.nable.library.newuser.User;
 
 //1
-public class NewHoldRequest implements AskHoldWithTime {
+public class NewLendRequest implements AskLendWithTime {
 
 	@NotNull
 	@Positive
@@ -29,7 +29,7 @@ public class NewHoldRequest implements AskHoldWithTime {
 	@Range(min = 1, max = 60)
 	private Integer time;
 
-	public NewHoldRequest(@NotNull Long idUser, @NotNull Long idBook) {
+	public NewLendRequest(@NotNull Long idUser, @NotNull Long idBook) {
 		super();
 		this.idUser = idUser;
 		this.idBook = idBook;
@@ -47,11 +47,11 @@ public class NewHoldRequest implements AskHoldWithTime {
 		return idBook;
 	}
 
-	public boolean hasTimeHold() {
+	public boolean hasTimeLend() {
 		return Optional.ofNullable(time).isPresent();
 	}
 
-	public Hold toModel(EntityManager manager) {
+	public Lend toModel(EntityManager manager) {
 		//1
 		Book book = manager.find(Book.class, idBook);
 		//1
@@ -59,10 +59,10 @@ public class NewHoldRequest implements AskHoldWithTime {
 		
 		Assert.state(Objects.nonNull(book),"The book need exist");
 		Assert.state(Objects.nonNull(user),"The user need exist");
-		Assert.state(user.validTimeHold(this),"You are try create a hold with no valid time for this user");
+		Assert.state(user.validTimeLend(this),"You are try create a lend with no valid time for this user");
 		
 		int limitAllocationTime = 60;
 		int timeDefined = time == null ? limitAllocationTime : time;
-		return  book.createHold(user, timeDefined);
+		return  book.createLend(user, timeDefined);
 	}
 }

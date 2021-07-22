@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.util.Assert;
 
 import com.nable.library.newbook.Book;
-import com.nable.library.newbook.Hold;
+import com.nable.library.newbook.Lend;
 import com.nable.library.newuser.User;
 
 @Entity
@@ -30,7 +30,7 @@ public class Instance {
 	private @NotNull @Valid Book book;
 	//1
 	@OneToMany(mappedBy = "instanceSelected")
-	private List<Hold> holds = new ArrayList<Hold>();
+	private List<Lend> lends = new ArrayList<Lend>();
 	
 	@Deprecated
 	public Instance() {
@@ -50,15 +50,15 @@ public class Instance {
 		return this.type.accept(user);
 	}
 
-	public boolean disponibleForHold() {
+	public boolean disponibleForLend() {
 		//1
-		return this.holds.isEmpty()
+		return this.lends.isEmpty()
 				||
-				this.holds.stream().allMatch(hold -> hold.wasReturned());
+				this.lends.stream().allMatch(lend -> lend.wasReturned());
 	}
 
 	public boolean disponible(@NotNull @Valid User user) {
-		return this.accept(user) && this.disponibleForHold();
+		return this.accept(user) && this.disponibleForLend();
 	}
 	
 	
