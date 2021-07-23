@@ -34,9 +34,8 @@ public class Book {
 	@NotNull
 	@Positive
 	private BigDecimal price;
-	@NotBlank
-	@ISBN(type = Type.ISBN_10)
-	private String isbn;
+	//@ISBN(type = Type.ISBN_10)
+	@NotBlank private String isbn;
 	// 1
 	@OneToMany(mappedBy = "book")
 	private List<Instance> instances = new ArrayList<>();

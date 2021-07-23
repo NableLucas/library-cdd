@@ -51,8 +51,15 @@ public class User {
 		long quantityLendsNoReturned = this.lends.stream()
 				.filter(lend -> !lend.wasReturned())
 				.count();
-		int limitLend = 5;
-		return quantityLendsNoReturned < limitLend;
+//		with polimorphism
+		return this.type.acceptNewLend(quantityLendsNoReturned);
+		
+//		without polimorphism but the point will be 8
+//		if(this.type.equals(UserType.DEFAULT))){
+//			return quantityLendsNoReturned < limitLend;			
+//		}
+//		
+//		return true;
 	}
 
 	

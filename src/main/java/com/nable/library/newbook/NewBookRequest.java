@@ -19,7 +19,7 @@ public class NewBookRequest {
 	@Positive
 	private BigDecimal price;
 	@NotBlank
-	@ISBN(type = Type.ISBN_10)
+//	@ISBN(type = Type.ISBN_10)
 	@UniqueValue(domainClass = Book.class, fieldName = "isbn")
 	private String isbn;
 
