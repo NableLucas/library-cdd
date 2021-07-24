@@ -62,5 +62,13 @@ public class User {
 //		return true;
 	}
 
+	public boolean limitExpiredLends() {
+		long expired = this.lends.stream()
+				.filter(Lend::expired)
+				.count();
+		
+		return expired < 2;
+	}
+
 	
 }

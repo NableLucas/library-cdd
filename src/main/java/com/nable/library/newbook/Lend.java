@@ -1,6 +1,7 @@
 package com.nable.library.newbook;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -43,6 +44,12 @@ public class Lend {
 		this.user = user;
 		this.instanceSelected = instanceSelected;
 		this.time = time;
+	}
+	
+	public boolean expired() {
+		return this.instantReturned
+				.plus(time, ChronoUnit.DAYS)
+				.compareTo(Instant.now()) < 0; // when is less then 0 the data is expired
 	}
 
 	public Long getId() {

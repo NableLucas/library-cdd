@@ -22,9 +22,12 @@ public class NewLendController {
 	@Autowired
 	private BasicVerificationLendValidator basicVerificationLendValidator;
 	
+	@Autowired
+	private LendExpireValidator lendExpireValidator;
+	
 	@InitBinder
 	public void init(WebDataBinder binder) {
-		binder.addValidators(basicVerificationLendValidator);
+		binder.addValidators(basicVerificationLendValidator, lendExpireValidator);
 	}
 	
 	@PostMapping(value = "/api/lend")
