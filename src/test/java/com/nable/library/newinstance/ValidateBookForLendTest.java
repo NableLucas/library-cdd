@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
@@ -47,7 +46,6 @@ public class ValidateBookForLendTest {
 //		
 //		ReflectionTestUtils.setField(user, "id", 1l);
 //		
-//		user.
 //		
 //		Errors errors = Mockito.spy(new BeanPropertyBindingResult(new Object(), "target"));
 //		

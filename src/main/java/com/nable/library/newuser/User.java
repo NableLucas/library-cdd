@@ -1,5 +1,6 @@
 package com.nable.library.newuser;
 
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,9 +63,10 @@ public class User {
 //		return true;
 	}
 
-	public boolean limitExpiredLends() {
+	public boolean limitExpiredLends(Clock clock) {
 		long expired = this.lends.stream()
-				.filter(Lend::expired)
+				//.filter(Lend::expired)
+				.filter(lend -> lend.expired(clock))
 				.count();
 		
 		return expired < 2;

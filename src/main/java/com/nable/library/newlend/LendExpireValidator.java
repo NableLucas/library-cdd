@@ -1,5 +1,6 @@
 package com.nable.library.newlend;
 
+import java.time.Clock;
 import java.util.Objects;
 
 import javax.persistence.EntityManager;
@@ -13,10 +14,13 @@ import com.nable.library.newuser.User;
 public class LendExpireValidator implements Validator {
 	
 	private EntityManager manager;
+	private Clock clock;
 	
-	public LendExpireValidator(EntityManager manager) {
+	
+	public LendExpireValidator(EntityManager manager, Clock clock) {
 		super();
 		this.manager = manager;
+		this.clock = clock;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class LendExpireValidator implements Validator {
 		
 		Assert.state(Objects.nonNull(user), "User need to exist");
 		
-		if(user.limitExpiredLends()) {
+		if(user.limitExpiredLends(clock)) {
 			errors.reject(null, "You have limit expired lend");
 		}
 		
