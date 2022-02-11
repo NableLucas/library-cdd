@@ -15,7 +15,7 @@ Inspired on [Cognitive Driven Development(CDD)](https://github.com/asouza/pilare
 The idea is define a limit points of complexity to guide the development process based on difficulty in uderstanding
 
 1. Contextual Coupling
-2. Code branchs(if, else, switch,operador ternário(?/:),try,catch)
+2. Code branchs(if, else, switch,ternary operator(?/:),try,catch)
 3. Functions as argument. Ex: ```lista.foreach(e -> e.toString());```.
 
 The limit for class is 7 points

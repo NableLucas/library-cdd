@@ -1,4 +1,4 @@
-package com.nable.library.newhold;
+package com.nable.library.newlend;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -11,27 +11,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nable.library.newbook.Lend;
+
 @RestController
-public class NewHoldController {
+public class NewLendController {
 	
 	@Autowired	
 	private EntityManager manager;
 	
 	@Autowired
-	private BasicVerificationHoldValidator basicVerificationHoldValidator;
+	private BasicVerificationLendValidator basicVerificationLendValidator;
+	
+	@Autowired
+	private LendExpireValidator lendExpireValidator;
 	
 	@InitBinder
 	public void init(WebDataBinder binder) {
-		binder.addValidators(basicVerificationHoldValidator);
+		binder.addValidators(basicVerificationLendValidator, lendExpireValidator);
 	}
 	
-	@PostMapping(value = "/api/hold")
+	@PostMapping(value = "/api/lend")
 	@Transactional
-	public Long executa(@RequestBody @Valid NewHoldRequest request){
-//		Class newClass = request.toModel();
-//		manager.persist(newClass)
-//		return newClass.getId();
-		return 1l;
+	public Long executa(@RequestBody @Valid NewLendRequest request){
+		Lend newLend = request.toModel(manager);
+		manager.persist(newLend);
+		return newLend.getId();
 	}
 }
 

@@ -37,20 +37,13 @@ public class NewInstanceController {
 
 		// 1
 		return possibleBook.map(book -> {
-			Instance newInstance = request.toModel(possibleBook.get());
+			//Instance newInstance = request.toModel(possibleBook.get());
+			Instance newInstance = book.newInstance(request.getType());
 			manager.persist(newInstance);
+			
 			return ResponseEntity.ok(newInstance.getId());
 		}).orElse(ResponseEntity.notFound().build());
 
-		//1 - Não precisei mais pois troquei a complexidade dado que tenho
-		// if(possibleBook.isEmpty()) {
-		//	return ResponseEntity.notFound().build();
-		// }
-
-		// 1
-		// Instance newInstance = request.toModel(possibleBook.get());
-		// manager.persist(newInstance);
-		// return ResponseEntity.ok(newInstance.getId());
 	}
 
 }
