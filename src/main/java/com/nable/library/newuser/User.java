@@ -1,5 +1,6 @@
 package com.nable.library.newuser;
 
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +52,24 @@ public class User {
 		long quantityLendsNoReturned = this.lends.stream()
 				.filter(lend -> !lend.wasReturned())
 				.count();
-		int limitLend = 5;
-		return quantityLendsNoReturned < limitLend;
+//		with polimorphism
+		return this.type.acceptNewLend(quantityLendsNoReturned);
+		
+//		without polimorphism but the point will be 8
+//		if(this.type.equals(UserType.DEFAULT))){
+//			return quantityLendsNoReturned < limitLend;			
+//		}
+//		
+//		return true;
+	}
+
+	public boolean limitExpiredLends(Clock clock) {
+		long expired = this.lends.stream()
+				//.filter(Lend::expired)
+				.filter(lend -> lend.expired(clock))
+				.count();
+		
+		return expired < 2;
 	}
 
 	
